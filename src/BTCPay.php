@@ -119,13 +119,15 @@ class Payment_Adapter_BTCPay implements FOSSBilling\InjectionAwareInterface
                     'select',
                     [
                         'multiOptions' => [
-                            "BTC"          => "BTC",
-                            "LTC"          => "LTC",
-                            "DASH"         => "DASH",
-                            "BTC,LTC"      => "BTC-LTC",
-                            "BTC,DASH"     => "BTC-DASH",
-                            "LTC,DASH"     => "LTC-DASH",
-                            "BTC,LTC,DASH" => "BTC-LTC-DASH",
+                            "ALL"                => "ALL",
+                            "BTC_LightningLike"  => "BTC (Lightning)",
+                            "BTC"                => "BTC",
+                            "LTC"                => "LTC",
+                            "DASH"               => "DASH",
+                            "BTC,LTC"            => "BTC-LTC",
+                            "BTC,DASH"           => "BTC-DASH",
+                            "LTC,DASH"           => "LTC-DASH",
+                            "BTC,LTC,DASH"       => "BTC-LTC-DASH",
                         ],
                         'label'        => 'Payment method :',
                     ],
@@ -285,7 +287,7 @@ class Payment_Adapter_BTCPay implements FOSSBilling\InjectionAwareInterface
             $checkoutOptions = new InvoiceCheckoutOptions();
             $checkoutOptions
                 ->setSpeedPolicy(constant(get_class($checkoutOptions).'::'.$this->config['policy_speed'] ?? "SPEED_HIGH"))
-                ->setPaymentMethods(explode(",", $this->config['payment_method']))
+                ->setPaymentMethods(($this->config['payment_method'] == 'ALL') ? null : explode(",", $this->config['payment_method']))
                 ->setRedirectURL($this->di['tools']->url('invoice/'.$invoice->hash));
             $request = $this->btcpay->createInvoice(
                 $this->config['store_id'],
