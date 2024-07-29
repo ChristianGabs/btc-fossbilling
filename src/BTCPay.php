@@ -129,6 +129,8 @@ class Payment_Adapter_BTCPay implements FOSSBilling\InjectionAwareInterface
                             "LTC,DASH"           => "LTC-DASH",
                             "BTC,LTC,DASH"       => "BTC-LTC-DASH",
                         ],
+                        'label'        => 'Payment method :',
+                    ],
                 ]
             ],
         ];
